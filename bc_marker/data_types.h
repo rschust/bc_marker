@@ -12,6 +12,6 @@ typedef struct _block_header_t
 	uint32_t timestamp;
 	uint32_t target_difficulty;
 	uint32_t nonce;
-	uint8_t v_transaction_count[9];
+	uint64_t v_transaction_count; // this is variable length
 } block_header_t;
 

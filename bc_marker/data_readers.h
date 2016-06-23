@@ -4,23 +4,34 @@
 
 /****** read single value start ******/
 
-uint8_t read_uint8(const void *addr);
+//uint8_t read_uint8(const void *addr);
+//uint16_t read_uint16(const void *addr);
+//uint32_t read_uint32(const void *addr);
+//uint64_t read_uint64(const void *addr);
 
-uint16_t read_uint16(const void *addr);
+typedef uint8_t(* variable_len_reader_t) (void **src, void *dst);
 
-uint32_t read_uint32(const void *addr);
+void init_readers();
 
-uint64_t read_uint64(const void *addr);
+uint8_t read_uint8(void **src, void *dst);
+uint8_t read_uint16(void **src, void *dst);
+uint8_t read_uint32(void **src, void *dst);
+uint8_t read_uint64(void **src, void *dst);
 
-void read_buffer(const void *addr, void *dst, size_t len);
+void read_buffer(void **src, void *dst, size_t len);
 
-uint8_t read_variable_len(const void *addr, uint64_t *val);
+uint8_t read_variable_len(void **addr, void *dst);
+
+uint8_t predict_variable_len(const unsigned char val);
+
+variable_len_reader_t get_variable_len_reader(uint8_t type);
 
 /****** read single value end ******/
 
 
 /****** read data type start ******/
-void read_block_header(const void *addr, block_header_t *dst);
+
+size_t read_block_header(const void * addr, size_t input_len, block_header_t * dst);
 
 /****** read data type end ******/
 
