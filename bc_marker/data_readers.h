@@ -4,10 +4,10 @@
 
 /****** read single value start ******/
 
-//uint8_t read_uint8(const void *addr);
-//uint16_t read_uint16(const void *addr);
-//uint32_t read_uint32(const void *addr);
-//uint64_t read_uint64(const void *addr);
+#ifdef  __cplusplus
+extern "C"
+{
+#endif //  __cplusplus
 
 typedef uint8_t(* variable_len_reader_t) (void **src, void *dst);
 
@@ -35,3 +35,6 @@ size_t read_block_header(const void * addr, size_t input_len, block_header_t * d
 
 /****** read data type end ******/
 
+#ifdef  __cplusplus
+}
+#endif //  __cplusplus

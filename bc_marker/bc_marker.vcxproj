@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bc_marker.cpp" />
-    <ClCompile Include="data_readers.cpp" />
+    <ClCompile Include="data_readers.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

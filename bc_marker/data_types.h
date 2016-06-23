@@ -2,6 +2,11 @@
 
 #include <stdint.h>
 
+#ifdef  __cplusplus
+extern "C"
+{
+#endif //  __cplusplus
+
 typedef struct _block_header_t
 {
 	uint32_t magic_id;
@@ -15,3 +20,6 @@ typedef struct _block_header_t
 	uint64_t v_transaction_count; // this is variable length
 } block_header_t;
 
+#ifdef  __cplusplus
+}
+#endif //  __cplusplus
