@@ -2,7 +2,15 @@
 #include "data_readers.h"
 #include <string.h>
 
-
+#ifdef BC_LITTLE_ENDIAN
+#define read_short(x)		(x)
+#define read_long(x)		(x)
+#define read_longlong(x)	(x)
+#else
+#define read_short(x) ntohs(x)
+#define read_long(x) ntohl(x)
+#define read_longlong(x) ntohll(x)
+#endif
 
 #pragma comment(lib, "ws2_32.lib")
 
@@ -27,7 +35,7 @@ uint8_t read_uint8(void **src, void *dst)
 uint8_t read_uint16(void **src, void *dst)
 {
 	uint16_t **src_ptr = (uint16_t **)src;
-	*(uint16_t *)dst = ntohs(**(uint16_t **)src);
+	*(uint16_t *)dst = read_short(**(uint16_t **)src);
 	++*src_ptr;
 	return 2;
 }
@@ -35,7 +43,7 @@ uint8_t read_uint16(void **src, void *dst)
 uint8_t read_uint32(void **src, void *dst)
 {
 	uint32_t **src_ptr = (uint32_t **)src;
-	*(uint32_t *)dst = ntohl(**(uint32_t **)src);
+	*(uint32_t *)dst = read_long(**(uint32_t **)src);
 	++*src_ptr;
 	return 4;
 }
@@ -43,7 +51,7 @@ uint8_t read_uint32(void **src, void *dst)
 uint8_t read_uint64(void **src, void *dst)
 {
 	uint64_t **src_ptr = (uint64_t **)src;
-	*(uint64_t *)dst = ntohll(**(uint64_t **)src);
+	*(uint64_t *)dst = read_longlong(**(uint64_t **)src);
 	++*src_ptr;
 	return 8;
 }
@@ -75,7 +83,7 @@ uint8_t read_variable_len(void **addr, void *dst)
 
 uint8_t predict_variable_len(const unsigned char val)
 {
-	switch (0xFF ^ val)
+	switch (~val)
 	{
 	case 0:
 		return 8;
@@ -102,7 +110,8 @@ size_t read_block_header(const void *addr, size_t input_len, block_header_t * ds
 		read_buffer(src_ptr, &dst->merkle_root_hash, 32);
 		read_uint32(src_ptr, &dst->timestamp);
 		read_uint32(src_ptr, &dst->target_difficulty);
-		read_uint32(src_ptr, &dst->nonce);
+		//read_uint32(src_ptr, &dst->nonce);
+		read_buffer(src_ptr, &dst->nonce, 4);
 		read_variable_len(src_ptr, &dst->v_transaction_count);
 	}
 
