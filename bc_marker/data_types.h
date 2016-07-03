@@ -9,6 +9,12 @@ extern "C"
 
 typedef uint64_t variable_len_t;
 
+typedef struct _block_header_t block_header_t;
+typedef struct _transaction_input_t transaction_input_t;
+typedef struct _transaction_output_t transaction_output_t;
+typedef struct _transaction_t transaction_t;
+typedef struct _block_t block_t;
+
 typedef struct _block_header_t
 {
 	uint32_t magic_id;
